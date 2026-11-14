@@ -9,7 +9,7 @@ from aiogram.types import (
 )
 
 TOKEN = "9158588934:AAHmj3Ek50z5Ewhw_gNiXbPL73Wmldn8FWM"
-STORAGE_CHAT_ID = -1004380024532  # ID твоего чата с фильмами
+STORAGE_CHAT_ID = -1004297755579  # ID твоего чата с фильмами
 
 bot = Bot(TOKEN)
 dp = Dispatcher()
