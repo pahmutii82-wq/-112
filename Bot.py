@@ -68,17 +68,16 @@ async def save_movie(message: Message):
     caption = message.caption or ""
     parts = [p.strip() for p in caption.split("|")]
     if len(parts) < 3 or not parts[1].isdigit():
-        await message.reply(
-            "Подпись должна быть такой: Название | Год | Жанр1, Жанр2"
-        )
+        print(f"Неверная подпись: {caption!r}", flush=True)
         return
 
     title, year, genres = parts[0], int(parts[1]), parts[2]
     media = message.video or message.document
     if add_movie(title, year, genres, media.file_id):
-        await message.reply(f"Добавлено: {title} ({year})")
+        print(f"ДОБАВЛЕНО: {title} ({year})", flush=True)
     else:
-        await message.reply("Этот файл уже есть в базе.")
+        print("Этот файл уже есть в базе", flush=True)
+
 
 
 # ---------- Меню ----------
