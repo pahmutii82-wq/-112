@@ -62,6 +62,7 @@ def get_years():
 
 
 # ---------- Приём фильмов из хранилища ----------
+@router.channel_post(F.chat.id == STORAGE_CHAT_ID, F.video | F.document)
 @router.message(F.chat.id == STORAGE_CHAT_ID, F.video | F.document)
 async def save_movie(message: Message):
     caption = message.caption or ""
