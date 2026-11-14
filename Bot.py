@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher, F, Router
 from aiogram.filters import Command
 from aiogram.types import (
     Message, CallbackQuery,
-    InlineKeyboardMarkup, InlineKeyboardButton,
+    InlineKeyboardMarkup, InlineKeyboardButton, ForceReply,
 
 )
 
@@ -85,9 +85,11 @@ async def save_movie(message: Message):
 def main_menu():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🎲 Случайный фильм", callback_data="random")],
+        [InlineKeyboardButton(text="🔍 Поиск по названию", callback_data="search")],
         [InlineKeyboardButton(text="🎭 По жанру", callback_data="genres")],
         [InlineKeyboardButton(text="📅 По году", callback_data="years")],
     ])
+
 
 
 
@@ -164,6 +166,15 @@ async def by_year(cb: CallbackQuery):
     rows = db.execute("SELECT * FROM movies WHERE year = ?", (year,)).fetchall()
     for row in rows[:5]:
         await send_movie(cb.message.chat.id, row)
+    await cb.answer()
+    
+    
+@router.callback_query(F.data == "search")
+async def ask_search(cb: CallbackQuery):
+    await cb.message.answer(
+        "Напиши название фильма или его часть:",
+        reply_markup=ForceReply(input_field_placeholder="Название фильма"),
+    )
     await cb.answer()
 
 
